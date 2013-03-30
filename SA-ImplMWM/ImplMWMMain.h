@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QtWidgets/QMainWindow>
 #include "ui_ImplMWMMain.h"
+#include "ImplMWMInputType.h"
 
 class ImplMWMMain : public QMainWindow
 {
@@ -16,9 +17,13 @@ public:
 
 public slots:
     void clickedAbout();
+    void clickedCancel();
+    void clickedRun();
+    void clickedSelectGraphFile();
 
 private:
     Ui::ImplMWMMainClass ui;
+    ImplMWMInputType determineInputType();
 };
 
 #endif // IMPLMWMMAIN_H

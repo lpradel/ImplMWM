@@ -120,6 +120,7 @@
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_ImplMWMMain.h" />
     <ClInclude Include="Global.h" />
+    <ClInclude Include="ImplMWMInputType.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ImplMWMMain.qrc">
