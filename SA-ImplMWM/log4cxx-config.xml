@@ -15,7 +15,7 @@
         <param name="file" value="ImplMWM-Log.log" />
         <param name="append" value="true" />
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d{yyyy-mm-dd HH:mm:ss} %-5p [%t:%x] [%c{2}] (%F:%L) - %m%n" />
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %-5p [%t:%x] [%c{2}] (%F:%L) - %m%n" />
         </layout>
     </appender>
 
