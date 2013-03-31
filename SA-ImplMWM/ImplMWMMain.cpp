@@ -26,31 +26,47 @@ void ImplMWMMain::clickedCancel()
 
 void ImplMWMMain::clickedRun()
 {
-    LOG4CXX_DEBUG(ImplMWMLogger, "Requested execution. Initializing..");
-    QMessageBox::information(0, "Clicked run!", "Hi!");
-
     ImplMWMInputType currentInputType = this->determineInputType();
+
     LOG4CXX_DEBUG(ImplMWMLogger, currentInputType);
+
+    switch (currentInputType)
+    {
+    case GRAPH_FILE:
+        break;
+
+    case RANDOM_GRAPH:
+        break;
+
+    default:
+        LOG4CXX_ERROR(ImplMWMLogger, "Unknown InputType. Cancelling execution.");
+        break;
+    }
 }
 
 void ImplMWMMain::clickedSelectGraphFile()
 {
-    LOG4CXX_DEBUG(ImplMWMLogger, "Showing Graph file selection dialog.");
-    QMessageBox::information(0, "Clicked select graph file!", "Hi!");
+    QFileDialog graphFileDialog(this, tr("Select Graph File..."), QDir::currentPath(), tr("Any Graph file (*)"));
+    graphFileDialog.setFileMode(QFileDialog::ExistingFile);
+
+    if (graphFileDialog.exec())
+    {
+        QStringList selectedGraphFiles = graphFileDialog.selectedFiles();
+        if (!selectedGraphFiles.empty())
+        {
+            this->selectedGraphFile = selectedGraphFiles.first();
+            ui.lineEditGraphFile->setText(selectedGraphFile);
+
+            LOG4CXX_DEBUG(ImplMWMLogger, ("Selected Graph file: " + selectedGraphFile).toStdString());
+        }
+    }
 }
 
 ImplMWMInputType ImplMWMMain::determineInputType()
 {
-    QList<QTabBar *> tabList = findChildren<QTabBar *>();
-    if(!tabList.isEmpty())
-    {
-        QTabBar *mainTabBar = tabList.at(0);
-        int currentTabIndex = mainTabBar->currentIndex();
+    int currentTabIndex = ui.tabWidgetGraphInput->currentIndex();
 
-        ImplMWMInputType currentInputType =  static_cast<ImplMWMInputType>(currentTabIndex);
-        return currentInputType;
-    }
+    ImplMWMInputType currentInputType =  static_cast<ImplMWMInputType>(currentTabIndex);
 
-    LOG4CXX_ERROR(ImplMWMLogger, "No QTabBar in main window. Unable to determine current input type.")
-    return GRAPH_FILE;
+    return currentInputType;
 }

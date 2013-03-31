@@ -2,6 +2,7 @@
 #ifndef IMPLMWMMAIN_H
 #define IMPLMWMMAIN_H
 
+#include <QFileDialog>
 #include <QMessageBox>
 #include <QtWidgets/QMainWindow>
 #include "ui_ImplMWMMain.h"
@@ -23,6 +24,8 @@ public slots:
 
 private:
     Ui::ImplMWMMainClass ui;
+    QString selectedGraphFile;
+
     ImplMWMInputType determineInputType();
 };
 
