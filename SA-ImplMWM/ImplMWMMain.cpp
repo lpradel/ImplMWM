@@ -101,7 +101,20 @@ void ImplMWMMain::closeEvent(QCloseEvent *event)
     }
 
     // Thread is still running!
-    QMessageBox::information(0, "Not finished!!", "Not finished!!");
+    if (QMessageBox::Yes == QMessageBox::information(this, "Confirm Close",
+        "The matching calculation is still running in another thread."
+        " Closing the application will terminate the thread without proper"
+        " termination and cleanup. Consider using the Cancel button or"
+        " waiting for termination of the calculation.\n\nAre you sure you"
+        " want to exit?", QMessageBox::Yes|QMessageBox::No))
+    {
+        // Kill worker thread the hard way as requested by user
+        this->implApproxMWMThread->terminate();
+
+        event->accept();
+        return;
+    }
+
     event->ignore();
 }
 
