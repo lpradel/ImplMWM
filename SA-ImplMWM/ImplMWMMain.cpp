@@ -1,15 +1,16 @@
 #include "Global.h"
+#include "ImplApproxMWMThreaded.h"
 #include "ImplMWMMain.h"
 
 ImplMWMMain::ImplMWMMain(QWidget *parent)
-    : QMainWindow(parent)
+    : QMainWindow(parent), implApproxMWMThread(nullptr)
 {
     ui.setupUi(this);
 }
 
 ImplMWMMain::~ImplMWMMain()
 {
-
+    this->implApproxMWMThread = nullptr;
 }
 
 void ImplMWMMain::clickedAbout()
@@ -28,8 +29,6 @@ void ImplMWMMain::clickedRun()
 {
     ImplMWMInputType currentInputType = this->determineInputType();
 
-    LOG4CXX_DEBUG(ImplMWMLogger, currentInputType);
-
     switch (currentInputType)
     {
     case GRAPH_FILE:
@@ -40,8 +39,22 @@ void ImplMWMMain::clickedRun()
 
     default:
         LOG4CXX_ERROR(ImplMWMLogger, "Unknown InputType. Cancelling execution.");
-        break;
+        return;
     }
+
+    this->implApproxMWMThread = new QThread;
+    ImplApproxMWMThreaded* implApproxMWM = new ImplApproxMWMThreaded();
+    implApproxMWM->moveToThread(implApproxMWMThread);
+    connect(implApproxMWMThread, SIGNAL(started()), implApproxMWM, SLOT(process()));
+    connect(implApproxMWM, SIGNAL(signalMatchingCalculationFinished(QString)), this, SLOT(onMatchingCalculationFinished(QString)));
+    connect(implApproxMWM, SIGNAL(signalMatchingCalculationFinished(QString)), implApproxMWMThread, SLOT(quit()));
+    connect(implApproxMWM, SIGNAL(signalMatchingCalculationFinished(QString)), implApproxMWM, SLOT(deleteLater()));
+    connect(implApproxMWMThread, SIGNAL(finished()), implApproxMWMThread, SLOT(deleteLater()));
+    connect(implApproxMWMThread, SIGNAL(finished()), this, SLOT(onImplApproxMWMThreadFinished()));
+    implApproxMWMThread->start();
+
+    ui.btnRun->setEnabled(false);
+    ui.btnCancel->setEnabled(true);
 }
 
 void ImplMWMMain::clickedSelectGraphFile()
@@ -60,6 +73,36 @@ void ImplMWMMain::clickedSelectGraphFile()
             LOG4CXX_DEBUG(ImplMWMLogger, ("Selected Graph file: " + selectedGraphFile).toStdString());
         }
     }
+}
+
+void ImplMWMMain::onMatchingCalculationFinished(QString info)
+{
+    LOG4CXX_INFO(ImplMWMLogger, ("Worker thread terminated with the following message: " + info).toStdString());
+
+    ui.btnRun->setEnabled(true);
+    ui.btnCancel->setEnabled(false);
+}
+
+void ImplMWMMain::onImplApproxMWMThreadFinished()
+{
+    // The threads finish() signal is connected to its deleteLater method.
+    // Once deleted we cannot call isFinished() anymore, so we denote
+    // this by nullptr instead.
+    this->implApproxMWMThread = nullptr;
+}
+
+void ImplMWMMain::closeEvent(QCloseEvent *event)
+{
+    if (this->implApproxMWMThread == nullptr)
+    {
+        // No thread created or it has terminated and called deleteLater()
+        event->accept();
+        return;
+    }
+
+    // Thread is still running!
+    QMessageBox::information(0, "Not finished!!", "Not finished!!");
+    event->ignore();
 }
 
 ImplMWMInputType ImplMWMMain::determineInputType()

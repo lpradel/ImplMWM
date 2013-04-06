@@ -2,8 +2,10 @@
 #ifndef IMPLMWMMAIN_H
 #define IMPLMWMMAIN_H
 
+#include <QCloseEvent>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QThread>
 #include <QtWidgets/QMainWindow>
 #include "ui_ImplMWMMain.h"
 #include "ImplMWMInputType.h"
@@ -21,10 +23,16 @@ public slots:
     void clickedCancel();
     void clickedRun();
     void clickedSelectGraphFile();
+    void onImplApproxMWMThreadFinished();
+    void onMatchingCalculationFinished(QString info);
+
+protected:
+    void closeEvent(QCloseEvent*);
 
 private:
     Ui::ImplMWMMainClass ui;
     QString selectedGraphFile;
+    QThread* implApproxMWMThread;
 
     ImplMWMInputType determineInputType();
 };
