@@ -59,6 +59,9 @@
     <ClCompile Include="GeneratedFiles\Release\moc_ImplApproxMWMThreaded.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="ImplApproxMWMWorker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="ImplMWMMain.h">
@@ -82,6 +85,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ImplMWMInputType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImplMBMType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphFileType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImplApproxMWMWorker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

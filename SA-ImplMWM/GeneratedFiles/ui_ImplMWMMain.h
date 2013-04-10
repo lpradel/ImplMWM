@@ -51,7 +51,7 @@ public:
     QLineEdit *lineEditGraphFile;
     QPushButton *btnSelectGraphFile;
     QLabel *label_4;
-    QComboBox *comboBox;
+    QComboBox *comboBoxGraphFileFormat;
     QWidget *tabRandomInput;
     QPushButton *btnClose;
     QStatusBar *statusBar;
@@ -119,9 +119,9 @@ public:
         label_4 = new QLabel(tabFileInput);
         label_4->setObjectName(QStringLiteral("label_4"));
         label_4->setGeometry(QRect(10, 50, 101, 21));
-        comboBox = new QComboBox(tabFileInput);
-        comboBox->setObjectName(QStringLiteral("comboBox"));
-        comboBox->setGeometry(QRect(120, 50, 131, 22));
+        comboBoxGraphFileFormat = new QComboBox(tabFileInput);
+        comboBoxGraphFileFormat->setObjectName(QStringLiteral("comboBoxGraphFileFormat"));
+        comboBoxGraphFileFormat->setGeometry(QRect(120, 50, 131, 22));
         tabWidgetGraphInput->addTab(tabFileInput, QString());
         tabRandomInput = new QWidget();
         tabRandomInput->setObjectName(QStringLiteral("tabRandomInput"));
@@ -176,8 +176,8 @@ public:
         comboBoxMaxMatchingAlgo->clear();
         comboBoxMaxMatchingAlgo->insertItems(0, QStringList()
          << QApplication::translate("ImplMWMMainClass", "Naive Greedy", 0)
-         << QApplication::translate("ImplMWMMainClass", "Bollig-Gille-Proeger", 0)
-         << QApplication::translate("ImplMWMMainClass", "Simple Heuristic", 0)
+         << QApplication::translate("ImplMWMMainClass", "Bollig-Proeger", 0)
+         << QApplication::translate("ImplMWMMainClass", "Hachtel-Somenzi Heuristic", 0)
          << QApplication::translate("ImplMWMMainClass", "Karp-Sipser Heuristic", 0)
         );
         label->setText(QApplication::translate("ImplMWMMainClass", "Maximal Matching Algorithm:", 0));
@@ -187,8 +187,8 @@ public:
         label_3->setText(QApplication::translate("ImplMWMMainClass", "Graph File:", 0));
         btnSelectGraphFile->setText(QApplication::translate("ImplMWMMainClass", "...", 0));
         label_4->setText(QApplication::translate("ImplMWMMainClass", "Graph File Format:", 0));
-        comboBox->clear();
-        comboBox->insertItems(0, QStringList()
+        comboBoxGraphFileFormat->clear();
+        comboBoxGraphFileFormat->insertItems(0, QStringList()
          << QApplication::translate("ImplMWMMainClass", "Custom", 0)
          << QApplication::translate("ImplMWMMainClass", "DIMACS", 0)
          << QApplication::translate("ImplMWMMainClass", "LEMON", 0)

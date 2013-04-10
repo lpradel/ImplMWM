@@ -8,6 +8,8 @@
 #include <QThread>
 #include <QtWidgets/QMainWindow>
 #include "ui_ImplMWMMain.h"
+#include "GraphFileType.h"
+#include "ImplMBMType.h"
 #include "ImplMWMInputType.h"
 
 class ImplMWMMain : public QMainWindow
@@ -27,14 +29,16 @@ public slots:
     void onMatchingCalculationFinished(QString info);
 
 protected:
-    void closeEvent(QCloseEvent*);
+    void closeEvent(QCloseEvent* event);
 
 private:
     Ui::ImplMWMMainClass ui;
     QString selectedGraphFile;
     QThread* implApproxMWMThread;
 
+    GraphFileType determineGraphFileFormat();
     ImplMWMInputType determineInputType();
+    ImplMBMType determineMaximalMatchingType();
 };
 
 #endif // IMPLMWMMAIN_H

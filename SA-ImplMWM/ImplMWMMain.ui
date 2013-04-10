@@ -58,12 +58,12 @@
      </item>
      <item>
       <property name="text">
-       <string>Bollig-Gille-Proeger</string>
+       <string>Bollig-Proeger</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>Simple Heuristic</string>
+       <string>Hachtel-Somenzi Heuristic</string>
       </property>
      </item>
      <item>
@@ -218,7 +218,7 @@
        <string>Graph File Format:</string>
       </property>
      </widget>
-     <widget class="QComboBox" name="comboBox">
+     <widget class="QComboBox" name="comboBoxGraphFileFormat">
       <property name="geometry">
        <rect>
         <x>120</x>

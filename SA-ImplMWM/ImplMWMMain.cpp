@@ -29,13 +29,26 @@ void ImplMWMMain::clickedRun()
 {
     ImplMWMInputType currentInputType = this->determineInputType();
 
+    ImplMBMType maximalMatchingType = this->determineMaximalMatchingType();
+    double epsilon = ui.doubleSpinBoxEpsilon->value();
+    bool calcMatchingWeight = ui.checkBoxCalcMatchingWeight->isChecked();
+
+    ImplApproxMWMThreaded* implApproxMWM = new ImplApproxMWMThreaded;
+    implApproxMWM->configureOptions(epsilon, maximalMatchingType, calcMatchingWeight);
+
     switch (currentInputType)
     {
     case GRAPH_FILE:
+    {
+        GraphFileType graphFileFormat = this->determineGraphFileFormat();
+        implApproxMWM->configureGraphFileInput(this->selectedGraphFile, graphFileFormat);
         break;
+    }
 
     case RANDOM_GRAPH:
+    {
         break;
+    }
 
     default:
         LOG4CXX_ERROR(ImplMWMLogger, "Unknown InputType. Cancelling execution.");
@@ -43,7 +56,6 @@ void ImplMWMMain::clickedRun()
     }
 
     this->implApproxMWMThread = new QThread;
-    ImplApproxMWMThreaded* implApproxMWM = new ImplApproxMWMThreaded();
     implApproxMWM->moveToThread(implApproxMWMThread);
     connect(implApproxMWMThread, SIGNAL(started()), implApproxMWM, SLOT(process()));
     connect(implApproxMWM, SIGNAL(signalMatchingCalculationFinished(QString)), this, SLOT(onMatchingCalculationFinished(QString)));
@@ -118,11 +130,29 @@ void ImplMWMMain::closeEvent(QCloseEvent *event)
     event->ignore();
 }
 
+GraphFileType ImplMWMMain::determineGraphFileFormat()
+{
+    int currentSelectionIndex = ui.comboBoxGraphFileFormat->currentIndex();
+
+    GraphFileType graphFileFormat = static_cast<GraphFileType>(currentSelectionIndex);
+
+    return graphFileFormat;
+}
+
 ImplMWMInputType ImplMWMMain::determineInputType()
 {
     int currentTabIndex = ui.tabWidgetGraphInput->currentIndex();
 
-    ImplMWMInputType currentInputType =  static_cast<ImplMWMInputType>(currentTabIndex);
+    ImplMWMInputType currentInputType = static_cast<ImplMWMInputType>(currentTabIndex);
 
     return currentInputType;
+}
+
+ImplMBMType ImplMWMMain::determineMaximalMatchingType()
+{
+    int currentSelectionIndex = ui.comboBoxMaxMatchingAlgo->currentIndex();
+
+    ImplMBMType maximalMatchingType = static_cast<ImplMBMType>(currentSelectionIndex);
+
+    return maximalMatchingType;
 }

@@ -175,6 +175,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="ImplApproxMWMThreaded.cpp" />
+    <ClCompile Include="ImplApproxMWMWorker.cpp" />
     <ClCompile Include="ImplMWMMain.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -240,6 +241,9 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB  "-ID:\dev\Visual Studio 2012\Libraries\cudd-2.5.0\include" "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-ID:\dev\Visual Studio 2012\Libraries\log4cxx-0.10.0\include"</Command>
     </CustomBuild>
+    <ClInclude Include="GraphFileType.h" />
+    <ClInclude Include="ImplApproxMWMWorker.h" />
+    <ClInclude Include="ImplMBMType.h" />
     <ClInclude Include="ImplMWMInputType.h" />
   </ItemGroup>
   <ItemGroup>
